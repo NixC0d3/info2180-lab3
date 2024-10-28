@@ -18,3 +18,11 @@ document.querySelectorAll("#board div").forEach(square => {
         }
     });
 });
+
+//Exercise 3 - Change the style when you move your mouse over a square
+document.querySelectorAll("#board div").forEach(square => {
+    square.addEventListener("mouseenter", () => square.classList.add("hover"));
+    square.addEventListener("mouseleave", () => square.classList.remove("hover"));
+});
+
+
