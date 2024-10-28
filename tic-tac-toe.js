@@ -25,4 +25,39 @@ document.querySelectorAll("#board div").forEach(square => {
     square.addEventListener("mouseleave", () => square.classList.remove("hover"));
 });
 
+//Exercise 4 - Check the winner and update the status
+const winningCombinations = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+    [0, 4, 8], [2, 4, 6]             // Diagonals
+];
 
+function checkWinner() {
+    const squares = Array.from(document.querySelectorAll("#board div"));
+    for (const combination of winningCombinations) {
+        const [a, b, c] = combination;
+        if (
+            squares[a].textContent &&
+            squares[a].textContent === squares[b].textContent &&
+            squares[a].textContent === squares[c].textContent
+        ) {
+            document.getElementById("status").textContent = `Congratulations! ${squares[a].textContent} is the Winner!`;
+            document.getElementById("status").classList.add("you-won");
+            return true;
+        }
+    }
+    return false;
+}
+
+square.addEventListener("click", () => { // Integrate the checkWinner function in the click event:
+    if (!square.textContent) {
+        square.textContent = currentPlayer;
+        square.classList.add(currentPlayer);
+        if (checkWinner()) {
+            // Disable further clicks
+            document.querySelectorAll("#board div").forEach(square => square.removeEventListener("click", clickHandler));
+        } else {
+            currentPlayer = currentPlayer === "X" ? "O" : "X";
+        }
+    }
+});
